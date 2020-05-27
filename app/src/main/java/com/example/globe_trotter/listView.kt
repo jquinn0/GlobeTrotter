@@ -26,6 +26,7 @@ class listView : AppCompatActivity() {
         val myListAdapter = MyListAdapter(this,names,dates,pics)
         list_View.adapter = myListAdapter
 
+        //We want to view in more detail if user selects one of the entries.
         list_View.setOnItemClickListener(){adapterView, view, position, id ->
             val itemAtPos = adapterView.getItemAtPosition(position)
             for(i in MainActivity.entries){

@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 // This is the class that makes the location entry object
 data class LocationEntry(var id: Int, var locationName: String, var lat: Double, var long: Double,  var date: String, var traits: String, var pic: String) {
 
+    // convert the numeric traits to a String representation
     fun calcScore(): Int {
         var s = traits.split(",")
         var toR = 0
@@ -42,6 +43,7 @@ data class LocationEntry(var id: Int, var locationName: String, var lat: Double,
         return toR
     }
 
+    // calculate which color the marker should be
     fun getColor(): Float{
         var s = traits.split(",")
         if(calcScore() >= 25){

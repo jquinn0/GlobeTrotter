@@ -17,6 +17,9 @@ import com.example.globe_trotte.LocationEntry
 import kotlinx.android.synthetic.main.detail_view.*
 
 class detailedView : AppCompatActivity() {
+
+    // le is the Location you want to view.
+    // It has to be a companion object so it can be set in other activities.
     companion object{
         var le: LocationEntry? = null
 
@@ -81,9 +84,8 @@ class detailedView : AppCompatActivity() {
         ad.show()
     }
 
+    // database calls should be AsyncTasks to avoid app crashing
     inner class myAsync: AsyncTask<Int, Unit, Unit>() {
-
-
         override fun doInBackground(vararg params: Int?) {
             val myDb= DataBaseManager(applicationContext)
             myDb.writableDatabase
@@ -104,6 +106,7 @@ class detailedView : AppCompatActivity() {
         val i = Intent(this, editLocationEntry::class.java)
         startActivity(i)
     }
+
     fun showOnMap(view: View) {
         MainActivity.czLong = le?.long
         MainActivity.czLat = le?.lat

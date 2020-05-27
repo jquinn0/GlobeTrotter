@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.example.globe_trotte.LocationEntry
 import kotlin.random.Random
 
-
+// columns for database that are needed for a single location entry
 val TABLE_ENTRIES = "Entries"
 val ID = "ID"
 val LONG = "Longitude"
@@ -18,6 +18,7 @@ val PIC = "Picture"
 
 
 class DataBaseManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+    // We want the rest of the project to see these attributes
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "Entries.db"
@@ -51,6 +52,7 @@ class DataBaseManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         db.execSQL(insertString)
     }
 
+    // used for iterating through DB entries easily.
     fun selectAll(): ArrayList<LocationEntry> {
         val sqlQuery = "select * from $TABLE_ENTRIES"
 

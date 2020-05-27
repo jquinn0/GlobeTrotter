@@ -24,6 +24,8 @@ import kotlin.collections.ArrayList
 class editLocationEntry: AppCompatActivity(){
     var myFile: Uri? = null
 
+    // Companion because we want to let other activities set this information so we know which location object
+    // we're potentially editing.
     companion object latlong{
         var nums = ArrayList<Int>()
         var le = LocationEntry(0, "", 0.0, 0.0, "","", "")
@@ -41,6 +43,7 @@ class editLocationEntry: AppCompatActivity(){
             var date = months.toString() +"/" +  d.toString() +"/" + y.toString()
             date_view.text = date
         }
+        // if toEdit is not null we know we are editing an existing entry
         if(toEdit != null){
             date_view.text = toEdit!!.date
             myFile = Uri.parse(toEdit!!.pic)
@@ -87,6 +90,8 @@ class editLocationEntry: AppCompatActivity(){
         }
 
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+            // Default trait of "New Location" should always exist. Anything else can be added or removed
             if (parent!!.getItemAtPosition(position).toString().isNotEmpty()) {
                 if(nums.contains(position) && position != 0){
                     nums.remove(position)
@@ -109,6 +114,7 @@ class editLocationEntry: AppCompatActivity(){
 
                 }
                 }
+                // Easier to save the traits as a numeric value, save to DB, then convert to the string value
                 var s = ""
                 for(i in nums){
                     s += traitToString(i) + "\n"
@@ -118,6 +124,7 @@ class editLocationEntry: AppCompatActivity(){
             }
     }
 
+    // Easier to save the traits as a numeric value, save to DB, then convert to the string value
      fun traitToString(i: Int): String{
         when(i){
             0 -> return "New Location"
@@ -138,6 +145,9 @@ class editLocationEntry: AppCompatActivity(){
         return ""
     }
 
+    // DB stuff should be handled by Async task to avoid app crashes.
+
+    // There's 2 Async classes because we can either update an existing entry, or add a new one.
     inner class myAsync: AsyncTask<LocationEntry, Unit, Unit>() {
         override fun doInBackground(vararg p0: LocationEntry) {
             val myDb= DataBaseManager(applicationContext)
@@ -151,7 +161,6 @@ class editLocationEntry: AppCompatActivity(){
             finish()
         }
     }
-
     inner class myAsync2: AsyncTask<LocationEntry, Unit, Unit>() {
         override fun doInBackground(vararg p0: LocationEntry) {
             val myDb= DataBaseManager(applicationContext)
@@ -167,10 +176,13 @@ class editLocationEntry: AppCompatActivity(){
     }
 
     fun confirmEntry(view: View) {
+        // Don't want blank names
         if(locationName.text.toString().isEmpty()){
             Toast.makeText(this, "NAME FIELD CANT BE EMPTY", Toast.LENGTH_LONG).show()
             return
         }
+
+        //Don't want the date blank either. Everything else is optional
         if(date_view.text.toString().isEmpty() || date_view.text.toString() == "DATE FIELD CANT BE EMPTY"){
             Toast.makeText(this, "DATE FIELD CANT BE EMPTY", Toast.LENGTH_LONG).show()
             date_view.text = "DATE FIELD CANT BE EMPTY"

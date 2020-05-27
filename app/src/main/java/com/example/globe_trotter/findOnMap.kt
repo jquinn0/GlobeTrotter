@@ -23,7 +23,6 @@ class findOnMap: AppCompatActivity(), OnMapReadyCallback, OnMapClickListener {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     lateinit var map: GoogleMap
-    var number = 1
 
     companion object latlong{
         var lat=0.00
@@ -83,24 +82,24 @@ class findOnMap: AppCompatActivity(), OnMapReadyCallback, OnMapClickListener {
         super.onSaveInstanceState(outState, outPersistentState)
     }
 
+    //We want to drop a pin when user clicks a position on the map.
     override fun onMapClick(p0: LatLng?) {
         map.clear()
         lat = p0?.latitude ?: 0.0
         long = p0?.longitude ?: 0.0
-        map.addMarker(MarkerOptions().position(p0!!).title("Selected Point ${number}").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)))
+        map.addMarker(MarkerOptions().position(p0!!).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)))
         map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(lat, long)))
-        number++
     }
 
-    fun clickedForLocation(view: View){
 
+    // Get last known location. In some rare situations this can be null.
+    fun clickedForLocation(view: View){
         fusedLocationClient.lastLocation.addOnSuccessListener {
                 location : Location? -> location
             if (location != null) {
                 lat = location.latitude
                 long = location.longitude
             }
-            // Got last known location. In some rare situations this can be null.
         }
 
         getLastLocation()
@@ -125,7 +124,7 @@ class findOnMap: AppCompatActivity(), OnMapReadyCallback, OnMapClickListener {
         }
 
 
-        map.addMarker(MarkerOptions().position(LatLng(lat, long)).title("Selected Point ${number}").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)))
+        map.addMarker(MarkerOptions().position(LatLng(lat, long)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)))
         map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(lat, long)))
     }
 
@@ -138,6 +137,7 @@ class findOnMap: AppCompatActivity(), OnMapReadyCallback, OnMapClickListener {
     }
 
     fun makeNewLocation(view: View) {
+        //Don't want to save an invalid location
         if(lat == 0.0 && long == 0.0 || lat == null){
             Toast.makeText(this,"Please Select A Location.", Toast.LENGTH_LONG).show()
             return

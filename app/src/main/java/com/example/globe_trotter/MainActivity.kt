@@ -25,8 +25,9 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var map: GoogleMap
 
+    // Want to have a list of objects all activities can access.
     companion object{
-        var entries = ArrayList<LocationEntry>() // for the entries to put to the map
+        var entries = ArrayList<LocationEntry>()
         var czLat: Double? = null
         var czLong: Double? = null // for the initial camera zoom
     }
@@ -123,6 +124,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             entries.add(i)
         }
 
+        // For fun score keeping
         var score = 0
         for(i in entries){
             map.addMarker( MarkerOptions().position(LatLng(i.lat, i.long)).title(i.locationName).icon(
@@ -132,6 +134,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             score += i.calcScore()
         }
         textView5.text = score.toString()
+
+        // if this isn't null we know it was set by another activity, so we want to view that coordinate.
         if(czLat != null){
             map.moveCamera((CameraUpdateFactory.newLatLngZoom(LatLng(czLat!!, czLong!!), 13.0f)))
             czLat = null
@@ -142,6 +146,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(40.00, -90.00)))
         }
 
+        // We want to display an entry in more detail if it's selected
         map.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
             var validator = false
             override fun onMarkerClick(p0: Marker?): Boolean {
