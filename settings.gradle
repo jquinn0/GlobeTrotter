@@ -1,0 +1,2 @@
+rootProject.name='Globe-Trotter'
+include ':app'

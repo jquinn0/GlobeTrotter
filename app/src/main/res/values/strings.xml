@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Globe Trotter</string>
+
+    <string-array name="locationTypes">
+        <item>New Location</item>
+        <item>Home</item>
+        <item>Different State</item>
+        <item>Different Country</item>
+        <item>Different Region</item>
+        <item>Entertainment Venue</item>
+        <item>Famous Landmark</item>
+        <item>Restaurant/Bar</item>
+        <item>Tropical/Mediterranean Climate</item>
+        <item>Average City</item>
+        <item>Big City</item>
+        <item>Park/Zoo</item>
+        <item>Beach/Lake/River</item>
+        <item>Desert Climate</item>
+    </string-array>
+
+
+    <string-array name="menuOptions">
+        <item>Menu</item>
+        <item>New Entry</item>
+        <item>List View</item>
+        <item>View Random Location</item>
+    </string-array>
+</resources>
